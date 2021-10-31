@@ -9,7 +9,7 @@ class Suny
    //-----------------Begin-----------------------------------
      void Init(void); 
   //----------------- PORT------------------------------------
-     uint8_t SelectPortI(uint8_t port);
+    
     
   //--------------------SENSOR--------------------------------
      void SetLed(int i,String color);
@@ -68,8 +68,9 @@ class Suny
      
   private:
   //====================================SENSOR/==============================
-    int ReadValue(uint8_t addr,int port);
-   
+    int SelectPortI(int port);
+    byte ReadValue(byte addr,int port);
+    
    //========================PORT OUTPUT
      int SelectPortO_Digi(int port);
      int SelectPortO_PWM(int port);
@@ -104,8 +105,8 @@ class Suny
     void pinModeOUTPUT();
     int num_out;
     //-----------------------Convert port sensor---------------------
-    uint8_t ConvertPortSensor(uint8_t portt);
-    uint8_t porrtt;
+    int ConvertPortSensor(int port);
+    
     //========================OTA======================
    
   uint8_t Array_Color[3];

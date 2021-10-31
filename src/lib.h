@@ -1,7 +1,7 @@
 #ifndef lib_H
 #define lib_H
-#include "WiFi.h"
-#include "ArduinoOTA.h"
+//#include "WiFi.h"
+//#include "ArduinoOTA.h"
 #include "Arduino.h"
 #include "RGB.h"
 #include "PCF8574.h"

@@ -10,7 +10,7 @@ void setup()
 }
 void loop()
 { 
- Serial.println("port3:"+(String) Rob.getLinePCF(3,1) + ":"  +(String) Rob.getLinePCF(3,2));
- Serial.println("port1:"+(String) Rob.getLinePCF(2,1) + ":"  +(String) Rob.getLinePCF(2,2));
- delay(1000);
+ Serial.println("port1:"+(String) Rob.getLinePCF(1,1) + ":"  +(String) Rob.getLinePCF(1,2));
+ Serial.println("port8:"+(String) Rob.getLinePCF(8,1) + ":"  +(String) Rob.getLinePCF(8,2));
+ delay(100);
 }

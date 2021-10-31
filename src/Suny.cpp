@@ -95,10 +95,11 @@ void Suny::TurnOFFALL(void)
      this->TurnOFF(i);
   }
 }
-uint8_t Suny::ConvertPortSensor(uint8_t port)
+int Suny::ConvertPortSensor(int port)
 {
   
-  if(port>7) return -1;
+  int porrtt;
+  if(port>8) return -1;
   if(port ==1) porrtt =3;
   else if(port ==2) porrtt=2;
   else if(port==3) porrtt=1;
@@ -110,13 +111,13 @@ uint8_t Suny::ConvertPortSensor(uint8_t port)
  return porrtt;
 }
 // Selectport INPUT
-uint8_t Suny::SelectPortI(uint8_t port)
+int Suny::SelectPortI(int port)
 {
-  uint8_t portt = this->ConvertPortSensor(port);
+  int portt = this->ConvertPortSensor(port);
   Wire.beginTransmission(0x70);
   Wire.write(1 << portt);
   Wire.endTransmission();
-  return portt;
+ 
 }
 void Suny::SendCmd(byte addr,uint8_t port,byte data)
 {
@@ -164,22 +165,18 @@ int Suny::SelectPortO_PWM(int port)
    else if(port ==8) return num =15;
    return num;
 }
- volatile uint8_t buff = 0;
+ 
 // Read data from Port 
-int Suny::ReadValue(uint8_t addr,int port)
+byte Suny::ReadValue(byte addr,int port)
 {
-  if(flagSensor == true)
-   {
+     volatile byte buff ;
      this->SelectPortI(port);
       Wire.requestFrom(addr, (uint8_t)1);
      if(Wire.available()>0)
        {
           buff = (uint8_t)Wire.read();  
-          delay(1);   
+         // delay(1);   
        }     
-//  Serial.println(buff);  
-    flagSensor =false;
-   }
    return buff;
 }
 
@@ -246,9 +243,7 @@ void Suny::SetTracficLigt(int port,String light,String status)
     else if(light == "Y"&& status=="ON") this->SendCmd(Tracfic_light_addr,this->SelectPortI(port),cmd_tracfic_Y);
     else  if(light == "Y"&& status =="NONE") this->SendCmd(Tracfic_light_addr,this->SelectPortI(port),cmd_tracfic_default);
     else if(light == "G"&& status=="ON") this->SendCmd(Tracfic_light_addr,this->SelectPortI(port),cmd_tracfic_G);
-    else  if(light == "G"&& status =="NONE") this->SendCmd(Tracfic_light_addr,this->SelectPortI(port),cmd_tracfic_default);
-    
-   
+    else  if(light == "G"&& status =="NONE") this->SendCmd(Tracfic_light_addr,this->SelectPortI(port),cmd_tracfic_default); 
 }
 bool Suny::getTouchLedPCF(int port)
 {
@@ -312,15 +307,18 @@ void Suny::SetButtonLed(int port,int led,String Color)
 }
 bool Suny::getLinePCF(int port,int line )
 {
- // uint8_t tempLinePCf = this->ReadValue(Line_PCF_addr,port);
- //this->SelectPortI(port);
- if(line == lineLeft) return LinePCF_data[0]= bitRead(this->ReadValue(Line_PCF_addr,port),0); 
- else if(line==lineRight) return LinePCF_data[1]= bitRead(this->ReadValue(Line_PCF_addr,port),1); 
- else return -1;
+  if(this->ReadValue(Line_PCF_addr,port) <252) return -1;
+  else
+  {
+    if(line==lineRight) return bitRead(ReadValue(Line_PCF_addr,port),0)?HIGH:LOW;
+    else if(line==lineLeft) return bitRead(ReadValue(Line_PCF_addr,port),1)?HIGH:LOW;
+    else return -1;
+  }
 }
 bool Suny::getIRPCF(int port)
 {
-  return IRPCF_data = bitRead(this->ReadValue(IR_PCF_addr,port),0);
+  if(this->ReadValue(IR_PCF_addr,port) <254) return -1;
+  else return IRPCF_data = bitRead(this->ReadValue(IR_PCF_addr,port),0)?HIGH:LOW;
 }
 void Suny::Suny_Max30102_Init()
 {
@@ -698,6 +696,7 @@ void Suny::DiG_OUTPUT(int port ,bool level)
   _pinO.digitalWrite(this->SelectPortO_Digi(port),level);
 }
 //===========================================OTA=========================
+/*
 void Suny::LC_OTAHandle(void)
 {
 ArduinoOTA.handle();
@@ -745,6 +744,7 @@ void Suny::LC_OTAInit(const char* wifi,const char* host)
 
 //===========================================END_OTA=========================
 //===========================================WIFI============================
+
 void Suny::Wifi_Init(const char* id,const char* pas)
 {
   WiFi.begin(id,pas);
@@ -755,6 +755,7 @@ void Suny::Wifi_Init(const char* id,const char* pas)
     delay(100);
   }
 }
+*/
 //==========================================DISPLAY==============================
 void Suny::Display_Init()
 {
