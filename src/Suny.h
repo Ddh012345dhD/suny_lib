@@ -36,6 +36,7 @@ class Suny
      int getDHT12(int port,int mode);
      bool getLinePCF(int port,int line);
      bool getIRPCF(int port);
+     void setIRPCFLed(int port,int led,int color);
 
     //--------------------MORTOR-------------------------
     //mode 1 : defaut,mode 2:timer,mode 3:rotation

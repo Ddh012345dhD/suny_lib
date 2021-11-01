@@ -8,9 +8,16 @@ void setup()
   Rob.Init();
  
 }
+int count=0;
 void loop()
 { 
- Serial.println("port1:"+(String) Rob.getLinePCF(1,1) + ":"  +(String) Rob.getLinePCF(1,2));
- Serial.println("port8:"+(String) Rob.getLinePCF(8,1) + ":"  +(String) Rob.getLinePCF(8,2));
- delay(100);
+  if(Rob.getIRPCF(1))
+  {
+    count=count+1;
+    if(count>7) count =0;
+     delay(1000);
+  }
+  Rob.setIRPCFLed(1,3,count);
+  //Rob.setIRPCFLed(1,2,count);
+ 
 }

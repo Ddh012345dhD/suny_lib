@@ -74,7 +74,45 @@ const float Kd=0.1;
 #define cmd_tracfic_Y  B00000101
 #define cmd_tracfic_G  B00000110
 #define cmd_tracfic_default B00000111
+//===================================== cmd IR LED=========================================
+#define IRPCF_LED1 1
+#define IRPCF_LED2 2
+#define IRPCF_ALL  3
+#define IR_cmd1_Red 0b11110111
+#define IR_cmd1_Blue 0b11111101
+#define IR_cmd1_Green 0b11111011
+#define IR_cmd1_White 0b11110001
+#define IR_cmd1_Yellow 0b11110011
+#define IR_cmd1_Cyn  0b11111001
+#define IR_cmd1_Violet 0b11110101
+//-------------------------------------------------------------------------------------
+#define IR_cmd2_Red 0b11101111
+#define IR_cmd2_Blue 0b10111111
+#define IR_cmd2_Green 0b11011111
+#define IR_cmd2_White 0b10001111
+#define IR_cmd2_Yellow 0b11001111
+#define IR_cmd2_Cyn 0b10011111
+#define IR_cmd2_Violet 0b10101111
 
+//---------------------------------------------------------------------------------------
+#define IR_cmd3_Red IR_cmd1_Red&IR_cmd2_Red
+#define IR_cmd3_Blue IR_cmd1_Blue&IR_cmd2_Blue
+#define IR_cmd3_Green IR_cmd1_Green&IR_cmd2_Green
+#define IR_cmd3_White IR_cmd1_White&IR_cmd2_White
+#define IR_cmd3_Yellow IR_cmd1_Yellow&IR_cmd2_Yellow
+#define IR_cmd3_Cyn IR_cmd1_Cyn&IR_cmd2_Cyn
+#define IR_cmd3_Violet IR_cmd1_Violet&IR_cmd2_Violet
+//-----------------------------------------
+#define IR_cmd_None 0b11111111
+//======================================Color IR LED ====================================
+#define IR_None 0
+#define IR_Red  1
+#define IR_Blue 2
+#define IR_Green 3
+#define IR_Yellow 4
+#define IR_Violet 5
+#define IR_White 6
+#define IR_Cyn 7
 
 //======================================cmd sensor Max30102==============================
 #define cmd_SPO2 1

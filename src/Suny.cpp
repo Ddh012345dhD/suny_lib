@@ -317,8 +317,43 @@ bool Suny::getLinePCF(int port,int line )
 }
 bool Suny::getIRPCF(int port)
 {
-  if(this->ReadValue(IR_PCF_addr,port) <254) return -1;
-  else return IRPCF_data = bitRead(this->ReadValue(IR_PCF_addr,port),0)?HIGH:LOW;
+ return ReadValue(IR_PCF_addr,port)&(0b00000001)?HIGH:LOW;
+}
+void Suny::setIRPCFLed(int port,int led,int color)
+{
+   byte  data;
+   if(led==IRPCF_LED1 &&  color==IR_None) data= IR_cmd_None; 
+   else if(led==IRPCF_LED1 &&  color==IR_Red) data= IR_cmd1_Red; 
+   else if(led==IRPCF_LED1 &&  color==IR_Blue) data= IR_cmd1_Blue; 
+   else if(led==IRPCF_LED1 &&  color==IR_Green) data= IR_cmd1_Green;
+   else if(led==IRPCF_LED1 &&  color==IR_Violet) data= IR_cmd1_Violet; 
+   else if(led==IRPCF_LED1 &&  color==IR_Yellow) data= IR_cmd1_Yellow; 
+   else if(led==IRPCF_LED1 &&  color==IR_Cyn)data= IR_cmd1_Cyn;
+   else if(led==IRPCF_LED1 &&  color==IR_White) data= IR_cmd1_White; 
+   //======================================================================
+
+   else if(led==IRPCF_LED2 &&  color==IR_None) data= IR_cmd_None; 
+   else if(led==IRPCF_LED2 &&  color==IR_Red) data= IR_cmd2_Red; 
+   else if(led==IRPCF_LED2 &&  color==IR_Blue) data= IR_cmd2_Blue; 
+   else if(led==IRPCF_LED2 &&  color==IR_Green) data= IR_cmd2_Green; 
+   else if(led==IRPCF_LED2 &&  color==IR_Violet) data= IR_cmd2_Violet; 
+   else if(led==IRPCF_LED2 &&  color==IR_Yellow) data= IR_cmd2_Yellow; 
+   else if(led==IRPCF_LED2 &&  color==IR_Cyn) data= IR_cmd2_Cyn; 
+   else if(led==IRPCF_LED2 && color==IR_White) data= IR_cmd2_White;
+   
+   //=============================================================================
+   else if(led==IRPCF_ALL &&  color==IR_None) data= IR_cmd_None; 
+   else if(led==IRPCF_ALL &&  color==IR_Red) data= IR_cmd3_Red; 
+   else if(led==IRPCF_ALL &&  color==IR_Blue) data= IR_cmd3_Blue; 
+   else if(led==IRPCF_ALL &&  color==IR_Green) data= IR_cmd3_Green; 
+   else if(led==IRPCF_ALL &&  color==IR_Violet) data= IR_cmd3_Violet; 
+   else if(led==IRPCF_ALL &&  color==IR_Yellow) data= IR_cmd3_Yellow; 
+   else if(led==IRPCF_ALL &&  color==IR_Cyn) data= IR_cmd3_Cyn; 
+   else if(led==IRPCF_ALL && color==IR_White) data= IR_cmd3_White;
+
+
+  this->SendCmd(IR_PCF_addr,this->SelectPortI(port),data);
+  
 }
 void Suny::Suny_Max30102_Init()
 {
